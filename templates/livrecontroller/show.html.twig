@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Livre{% endblock %}
+
+{% block body %}
+
+<h1>{{ livre.titre }}</h1>
+<p>{{ livre.resume }}</p>
+<img src="{{ livre.couverture }}" alt="{{ livre.titre }}">
+
+<a href="{{ path('app_livrecontroller') }}">Retour à la liste des livres</a>
+<a href="#">Modifier</a>
+<a href="#">Supprimer</a>
+{% endblock %}
