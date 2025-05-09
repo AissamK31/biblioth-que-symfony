@@ -1,17 +1,17 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
+<!DOCTYPE html> {# Déclaration du type de document HTML #}
+<html> {# Balise racine HTML #}
+    <head> {# En-tête du document #}
+        <meta charset="UTF-8"> {# Définit l'encodage des caractères #}
+        <title>{% block title %}Welcome!{% endblock %}</title> {# Titre de la page, peut être remplacé dans les templates enfants #}
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>"> {# Favicon Symfony par défaut #}
+        {% block stylesheets %} {# Bloc pour les feuilles de style, peut être étendu dans les templates enfants #}
         {% endblock %}
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% block javascripts %} {# Bloc pour les scripts JavaScript #}
+            {% block importmap %}{{ importmap('app') }}{% endblock %} {# Utilise importmap pour gérer les dépendances JS #}
         {% endblock %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
+    <body> {# Corps du document #}
+        {% block body %}{% endblock %} {# Bloc principal qui sera remplacé dans les templates enfants #}
     </body>
 </html>

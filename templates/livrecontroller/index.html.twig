@@ -1,18 +1,18 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %} {# Étend le template de base #}
 
-{% block title %}Liste des livres{% endblock %}
+{% block title %}Liste des livres{% endblock %} {# Définit le titre de la page #}
 
-{% block body %}
-<h1>Liste des livres</h1>
-<ul>
-    {% for livre in livres %}
-        <li>
-            <a href="{{ path('app_livre_show', {'id': livre.id}) }}">
-                {{ livre.titre }}
+{% block body %} {# Début du bloc body qui sera inséré dans le template de base #}
+<h1>Liste des livres</h1> {# Titre principal de la page #}
+<ul> {# Début d'une liste non ordonnée #}
+    {% for livre in livres %} {# Boucle sur tous les livres passés au template #}
+        <li> {# Élément de liste #}
+            <a href="{{ path('app_livre_show', {'id': livre.id}) }}"> {# Lien vers la page de détail du livre avec son id #}
+                {{ livre.titre }} {# Affiche le titre du livre #}
             </a>
         </li>
-    {% else %}
-        <li>Aucun livre trouvé.</li>
-    {% endfor %}
-</ul>
-{% endblock %}
+    {% else %} {# Si aucun livre n'est trouvé #}
+        <li>Aucun livre trouvé.</li> {# Message affiché si la liste est vide #}
+    {% endfor %} {# Fin de la boucle #}
+</ul> {# Fin de la liste #}
+{% endblock %} {# Fin du bloc body #}

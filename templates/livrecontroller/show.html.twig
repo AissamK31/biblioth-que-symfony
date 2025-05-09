@@ -1,14 +1,14 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %} {# Étend le template de base #}
 
-{% block title %}Livre{% endblock %}
+{% block title %}Livre{% endblock %} {# Définit le titre de la page #}
 
-{% block body %}
+{% block body %} {# Début du bloc body qui sera inséré dans le template de base #}
 
-<h1>{{ livre.titre }}</h1>
-<p>{{ livre.resume }}</p>
-<img src="{{ livre.couverture }}" alt="{{ livre.titre }}">
+<h1>{{ livre.titre }}</h1> {# Affiche le titre du livre comme titre principal #}
+<p>{{ livre.resume }}</p> {# Affiche le résumé du livre dans un paragraphe #}
+<img src="{{ livre.couverture }}" alt="{{ livre.titre }}"> {# Affiche l'image de couverture avec le titre comme texte alternatif #}
 
-<a href="{{ path('app_livrecontroller') }}">Retour à la liste des livres</a>
-<a href="#">Modifier</a>
-<a href="#">Supprimer</a>
-{% endblock %}
+<a href="{{ path('app_livrecontroller') }}">Retour à la liste des livres</a> {# Lien pour revenir à la liste des livres #}
+<a href="#">Modifier</a> {# Lien non implémenté pour modifier le livre #}
+<a href="#">Supprimer</a> {# Lien non implémenté pour supprimer le livre #}
+{% endblock %} {# Fin du bloc body #}

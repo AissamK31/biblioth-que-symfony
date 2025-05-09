@@ -1,65 +1,65 @@
-<?php
+<?php // Début du fichier PHP
 
-namespace App\Entity;
+namespace App\Entity; // Espace de noms pour les entités
 
-use App\Repository\LivreRepository;
-use Doctrine\ORM\Mapping as ORM;
+use App\Repository\LivreRepository; // Importe le repository associé
+use Doctrine\ORM\Mapping as ORM; // Importe les annotations Doctrine pour le mapping objet-relationnel
 
-#[ORM\Entity(repositoryClass: LivreRepository::class)]
-class Livre
+#[ORM\Entity(repositoryClass: LivreRepository::class)] // Définit la classe comme une entité gérée par le repository LivreRepository
+class Livre // Définition de la classe Livre
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Id] // Marque ce champ comme identifiant
+    #[ORM\GeneratedValue] // La valeur sera générée automatiquement (auto-increment)
+    #[ORM\Column] // Définit que c'est une colonne en base de données
+    private ?int $id = null; // Propriété id initialisée à null, peut être null (?)
 
-    #[ORM\Column(length: 255)]
-    private ?string $titre = null;
+    #[ORM\Column(length: 255)] // Colonne avec longueur maximale de 255 caractères
+    private ?string $titre = null; // Propriété titre, peut être null
 
-    #[ORM\Column(length: 255)]
-    private ?string $resume = null;
+    #[ORM\Column(length: 255)] // Colonne avec longueur maximale de 255 caractères
+    private ?string $resume = null; // Propriété resume, peut être null
 
-    #[ORM\Column(length: 255)]
-    private ?string $couverture = null;
+    #[ORM\Column(length: 255)] // Colonne avec longueur maximale de 255 caractères
+    private ?string $couverture = null; // Propriété couverture, peut être null
 
-    public function getId(): ?int
+    public function getId(): ?int // Getter pour l'id, retourne un int ou null
     {
-        return $this->id;
+        return $this->id; // Retourne la valeur de la propriété id
     }
 
-    public function getTitre(): ?string
+    public function getTitre(): ?string // Getter pour le titre, retourne une string ou null
     {
-        return $this->titre;
+        return $this->titre; // Retourne la valeur de la propriété titre
     }
 
-    public function setTitre(string $titre): static
+    public function setTitre(string $titre): static // Setter pour le titre, prend une string en paramètre
     {
-        $this->titre = $titre;
+        $this->titre = $titre; // Assigne la valeur du paramètre à la propriété
 
-        return $this;
+        return $this; // Retourne l'instance courante pour permettre le chaînage des méthodes
     }
 
-    public function getResume(): ?string
+    public function getResume(): ?string // Getter pour le résumé, retourne une string ou null
     {
-        return $this->resume;
+        return $this->resume; // Retourne la valeur de la propriété resume
     }
 
-    public function setResume(string $resume): static
+    public function setResume(string $resume): static // Setter pour le résumé, prend une string en paramètre
     {
-        $this->resume = $resume;
+        $this->resume = $resume; // Assigne la valeur du paramètre à la propriété
 
-        return $this;
+        return $this; // Retourne l'instance courante pour permettre le chaînage des méthodes
     }
 
-    public function getCouverture(): ?string
+    public function getCouverture(): ?string // Getter pour la couverture, retourne une string ou null
     {
-        return $this->couverture;
+        return $this->couverture; // Retourne la valeur de la propriété couverture
     }
 
-    public function setCouverture(string $couverture): static
+    public function setCouverture(string $couverture): static // Setter pour la couverture, prend une string en paramètre
     {
-        $this->couverture = $couverture;
+        $this->couverture = $couverture; // Assigne la valeur du paramètre à la propriété
 
-        return $this;
+        return $this; // Retourne l'instance courante pour permettre le chaînage des méthodes
     }
 }
