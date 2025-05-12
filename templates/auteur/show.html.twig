@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Auteur: {{ auteur.prenom }} {{ auteur.nom }}{% endblock %}
+
+{% block body %}
+    <h1>{{ auteur.prenom }} {{ auteur.nom }}</h1>
+    
+    <h2>Livres de cet auteur:</h2>
+    <ul>
+    {% for livre in auteur.livres %}
+        <li>{{ livre.titre }}</li>
+    {% else %}
+        <li>Aucun livre trouvé</li>
+    {% endfor %}
+    </ul>
+    
+    <a href="{{ path('app_auteur_index') }}">Retour à la liste</a>
+{% endblock %}

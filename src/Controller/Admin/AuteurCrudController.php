@@ -2,28 +2,39 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Livre;
+use App\Entity\Auteur;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 
-class LivreCrudController extends AbstractCrudController
+
+class AuteurCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Livre::class;
+        return Auteur::class;
     }
 
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id')->hideOnForm(),
-            TextField::new('titre'),
-            TextEditorField::new('resume'),
-            TextField::new('couverture'),
-            AssociationField::new('auteur')
+            TextField::new('nom'),
+            TextField::new('prenom'),
+            AssociationField::new('livres')->hideOnForm()
         ];
     }
+
+    /*
+    public function configureFields(string $pageName): iterable
+    {
+        return [
+            IdField::new('id'),
+            TextField::new('title'),
+            TextEditorField::new('description'),
+        ];
+    }
+    */
 }

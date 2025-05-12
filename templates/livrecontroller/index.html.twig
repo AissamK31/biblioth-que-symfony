@@ -9,6 +9,7 @@
         <li> {# Élément de liste #}
             <a href="{{ path('app_livre_show', {'id': livre.id}) }}"> {# Lien vers la page de détail du livre avec son id #}
                 {{ livre.titre }} {# Affiche le titre du livre #}
+                <p>Auteur: {{ livre.auteur.prenom }} {{ livre.auteur.nom }}</p>
             </a>
         </li>
     {% else %} {# Si aucun livre n'est trouvé #}

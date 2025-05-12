@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard - Mon compte{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type == 'error' ? 'danger' : type }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Mon profil</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ app.user.email }}</p>
+                    <div class="d-grid">
+                        <a href="{{ path('app_logout') }}" class="btn btn-outline-danger">Déconnexion</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="list-group mb-4">
+                <a href="#" class="list-group-item list-group-item-action active">Tableau de bord</a>
+                <a href="#" class="list-group-item list-group-item-action">Mes emprunts</a>
+                <a href="#" class="list-group-item list-group-item-action">Mon historique</a>
+                <a href="#" class="list-group-item list-group-item-action">Paramètres</a>
+            </div>
+        </div>
+        
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h1 class="h3 mb-0">Tableau de bord utilisateur</h1>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Bienvenue, {{ app.user.email }}</h5>
+                    <p class="card-text">Depuis votre tableau de bord, vous pouvez gérer vos emprunts, voir votre historique et mettre à jour vos informations.</p>
+                    
+                    <h5 class="mt-4">Statistiques</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card bg-light mb-3">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">0</h5>
+                                    <p class="card-text">Livres empruntés</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-light mb-3">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">0</h5>
+                                    <p class="card-text">Livres en retard</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-light mb-3">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">0</h5>
+                                    <p class="card-text">Historique d'emprunts</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

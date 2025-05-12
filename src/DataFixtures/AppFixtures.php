@@ -1,29 +1,45 @@
-<?php // Début du fichier PHP
+<?php
 
-namespace App\DataFixtures; // Espace de noms pour les fixtures
+namespace App\DataFixtures;
 
-use App\Entity\Livre; // Import de l'entité Livre
-use Doctrine\Bundle\FixturesBundle\Fixture; // Import de la classe Fixture de base
-use Doctrine\Persistence\ObjectManager; // Import du gestionnaire d'objets Doctrine
+use App\Entity\Auteur;
+use App\Entity\Livre;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Persistence\ObjectManager;
 
-class AppFixtures extends Fixture // Définition de la classe qui étend Fixture
+
+class AppFixtures extends Fixture
 {
-    public function load(ObjectManager $manager): void // Méthode exécutée lors du chargement des fixtures
+    public function load(ObjectManager $manager): void
     {
-        // $product = new Product(); // Commentaire d'exemple (code généré automatiquement)
-        // $manager->persist($product); // Commentaire d'exemple (code généré automatiquement)
-        for ($i = 0; $i < 10; $i++) { // Boucle pour créer 10 livres
-            $livre = new Livre(); // Création d'une nouvelle instance de Livre
-            $livre->setTitre("livre " . $i); // Définit le titre avec une valeur incluant l'index
-            $livre->setResume("Le livre de la vie est un livre qui parle de la vie " . $i); // Définit le résumé
-            $livre->setCouverture("https://via.placeholder.com/150 " . $i); // Définit l'URL de la couverture (placeholder)
-            $manager->persist($livre); // Indique à Doctrine de persister cet objet
+        // Créer des auteurs
+        $auteurs = [];
+        $nomsAuteurs = ['Hugo', 'Camus', 'Zola', 'Dumas', 'Balzac'];
+        $prenomsAuteurs = ['Victor', 'Albert', 'Émile', 'Alexandre', 'Honoré'];
+        
+        for ($i = 0; $i < 5; $i++) {
+            $auteur = new Auteur();
+            $auteur->setNom($nomsAuteurs[$i]);
+            $auteur->setPrenom($prenomsAuteurs[$i]);
+            $manager->persist($auteur);
+            $auteurs[] = $auteur;
+        }
+        
+        // Créer des livres et les lier à un auteur aléatoire
+        for ($i = 0; $i < 5; $i++) {
+            $livre = new Livre();
+            $livre->setTitre('Livre ' . $i);
+            $livre->setResume('Résumé du livre ' . $i);
+            // Ajout d'une couverture (URL d'image placeholder)
+            $livre->setCouverture('https://via.placeholder.com/150' . $i);
+            // Attribution d'un auteur aléatoire
+            $auteurAleatoire = $auteurs[array_rand($auteurs)];
+            $livre->setAuteur($auteurAleatoire);
+            
+            $manager->persist($livre);
         }
 
-
-
-
-        $manager->flush(); // Exécute les requêtes SQL pour insérer tous les objets persistés
-
+        $manager->flush();
     }
 }
+?>

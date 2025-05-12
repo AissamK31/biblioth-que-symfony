@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Bibliothèque{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type == 'error' ? 'danger' : type }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    
+    <div class="card bg-light border-0 shadow-sm">
+        <div class="card-body p-5">
+            <h1 class="display-4 mb-4">Bienvenue dans notre bibliothèque</h1>
+            <p class="lead mb-4">Un espace dédié à la gestion et à la découverte de livres.</p>
+            
+            {% if not app.user %}
+                <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start mt-4">
+                    <a href="{{ path('app_login') }}" class="btn btn-primary btn-lg px-4 me-sm-3">Se connecter</a>
+                    <a href="{{ path('app_register') }}" class="btn btn-outline-secondary btn-lg px-4">S'inscrire</a>
+                </div>
+            {% else %}
+                <div class="card mt-4 bg-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Bonjour, {{ app.user.email }}</h5>
+                        <p class="card-text">Que souhaitez-vous faire aujourd'hui ?</p>
+                        
+                        <div class="d-grid gap-2 d-md-block">
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a href="/admin" class="btn btn-primary">Accéder à l'administration</a>
+                            {% else %}
+                                <a href="{{ path('app_dashboard') }}" class="btn btn-primary">Accéder à mon compte</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="row mt-5">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Notre collection</h5>
+                    <p class="card-text">Découvrez notre vaste sélection de livres, des classiques aux nouveautés.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Emprunter facilement</h5>
+                    <p class="card-text">Notre système permet d'emprunter et de gérer vos livres en quelques clics.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Suggestions personnalisées</h5>
+                    <p class="card-text">Recevez des recommandations basées sur vos préférences de lecture.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

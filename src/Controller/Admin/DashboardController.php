@@ -10,14 +10,16 @@ use Symfony\Component\HttpFoundation\Response;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use App\Controller\Admin\LivreCrudController;
 use App\Entity\Livre;
-
+use App\Entity\Auteur;
 
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
 {
-    public function __construct(
-        private AdminUrlGenerator $adminUrlGenerator
-    ) {
+    private $adminUrlGenerator;
+    
+    public function __construct(AdminUrlGenerator $adminUrlGenerator)
+    {
+        $this->adminUrlGenerator = $adminUrlGenerator;
     }
     
     public function index(): Response
@@ -34,17 +36,17 @@ class DashboardController extends AbstractDashboardController
         return Dashboard::new()
             ->setTitle('Bibliothèque')
             ->setFaviconPath('favicon.svg')
-            ->setTranslationDomain('admin')
-            ->renderContentMaximized()
-            ->renderSidebarMinimized();
+            ->setTranslationDomain('admin');
     }
 
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Livres', 'fas fa-book', Livre::class);
-      
+        yield MenuItem::linkToCrud('Auteurs', 'fas fa-user-pen', Auteur::class);
+
 
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
 }   
+

@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Déjà connecté{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h1 class="h3 mb-0">Vous êtes déjà connecté</h1>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <p>Vous êtes actuellement connecté en tant que <strong>{{ user.email }}</strong>.</p>
+                    </div>
+
+                    <div class="d-grid gap-3">
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="/admin" class="btn btn-primary">
+                                <i class="fas fa-tachometer-alt me-2"></i>Accéder au tableau de bord d'administration
+                            </a>
+                        {% else %}
+                            <a href="{{ path('app_dashboard') }}" class="btn btn-primary">
+                                <i class="fas fa-user me-2"></i>Accéder à mon compte
+                            </a>
+                        {% endif %}
+                        
+                        <a href="{{ path('app_home') }}" class="btn btn-secondary">
+                            <i class="fas fa-home me-2"></i>Retourner à l'accueil
+                        </a>
+                        
+                        <hr class="my-3">
+                        
+                        <div class="text-center">
+                            <p>Vous souhaitez vous connecter avec un compte différent ?</p>
+                            <a href="{{ path('app_manual_logout') }}" class="btn btn-danger">
+                                <i class="fas fa-sign-out-alt me-2"></i>Se déconnecter
+                            </a>
+                            <a href="{{ path('app_login', {'switch': 'true'}) }}" class="btn btn-outline-primary mt-2">
+                                <i class="fas fa-exchange-alt me-2"></i>Changer de compte
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
