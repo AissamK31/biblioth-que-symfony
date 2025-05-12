@@ -1,0 +1,132 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes emprunts{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type == 'error' ? 'danger' : type }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Menu</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="{{ path('app_dashboard') }}" class="list-group-item list-group-item-action">Tableau de bord</a>
+                    <a href="{{ path('app_bibliotheque') }}" class="list-group-item list-group-item-action">Catalogue de livres</a>
+                    <a href="{{ path('app_mes_emprunts') }}" class="list-group-item list-group-item-action active">Mes emprunts</a>
+                    <a href="{{ path('app_historique_emprunts') }}" class="list-group-item list-group-item-action">Historique</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-9">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h1 class="h3 mb-0">Mes emprunts en cours</h1>
+                    <span class="badge bg-primary">{{ empruntsActifs|length }} livre(s)</span>
+                </div>
+                <div class="card-body">
+                    {% if empruntsActifs|length > 0 %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Livre</th>
+                                        <th>Date d'emprunt</th>
+                                        <th>Date de retour</th>
+                                        <th>Statut</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for emprunt in empruntsActifs %}
+                                        <tr>
+                                            <td>
+                                                <a href="{{ path('app_bibliotheque_livre_show', {'id': emprunt.livre.id}) }}">
+                                                    {{ emprunt.livre.titre }}
+                                                </a>
+                                            </td>
+                                            <td>{{ emprunt.dateEmprunt|date('d/m/Y') }}</td>
+                                            <td>{{ emprunt.dateRetourPrevue|date('d/m/Y') }}</td>
+                                            <td>
+                                                {% if emprunt.calculerRetard %}
+                                                    <span class="badge bg-danger">En retard</span>
+                                                {% else %}
+                                                    <span class="badge bg-success">À jour</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <a href="{{ path('app_retourner_livre', {'id': emprunt.id}) }}" class="btn btn-sm btn-primary">
+                                                    Retourner
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">
+                            Vous n'avez aucun emprunt en cours. <a href="{{ path('app_bibliotheque') }}">Parcourir le catalogue</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            {% if empruntsEnRetard|length > 0 %}
+                <div class="card border-danger">
+                    <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
+                        <h2 class="h4 mb-0">Emprunts en retard</h2>
+                        <span class="badge bg-light text-danger">{{ empruntsEnRetard|length }} livre(s)</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Livre</th>
+                                        <th>Date d'emprunt</th>
+                                        <th>Date de retour prévue</th>
+                                        <th>Retard</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for emprunt in empruntsEnRetard %}
+                                        <tr>
+                                            <td>
+                                                <a href="{{ path('app_bibliotheque_livre_show', {'id': emprunt.livre.id}) }}">
+                                                    {{ emprunt.livre.titre }}
+                                                </a>
+                                            </td>
+                                            <td>{{ emprunt.dateEmprunt|date('d/m/Y') }}</td>
+                                            <td>{{ emprunt.dateRetourPrevue|date('d/m/Y') }}</td>
+                                            <td>
+                                                {% set diff = date().diff(emprunt.dateRetourPrevue).days %}
+                                                {{ diff }} jour(s)
+                                            </td>
+                                            <td>
+                                                <a href="{{ path('app_retourner_livre', {'id': emprunt.id}) }}" class="btn btn-sm btn-primary">
+                                                    Retourner
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

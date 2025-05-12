@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bibliothèque - Catalogue{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type == 'error' ? 'danger' : type }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Menu</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="{{ path('app_dashboard') }}" class="list-group-item list-group-item-action">Tableau de bord</a>
+                    <a href="{{ path('app_bibliotheque') }}" class="list-group-item list-group-item-action active">Catalogue de livres</a>
+                    <a href="{{ path('app_mes_emprunts') }}" class="list-group-item list-group-item-action">Mes emprunts</a>
+                    <a href="{{ path('app_historique_emprunts') }}" class="list-group-item list-group-item-action">Historique</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h1 class="h3 mb-0">Catalogue de livres</h1>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for livre in livres %}
+                            <div class="col-md-4 mb-4">
+                                <div class="card h-100">
+                                    {% if livre.couverture %}
+                                        <img src="{{ asset('uploads/couvertures/' ~ livre.couverture) }}" class="card-img-top" alt="{{ livre.titre }}" style="height: 200px; object-fit: cover;">
+                                    {% else %}
+                                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                            <span class="text-muted">Pas d'image</span>
+                                        </div>
+                                    {% endif %}
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ livre.titre }}</h5>
+                                        <p class="card-text">
+                                            <small class="text-muted">
+                                                {% if livre.auteur %}
+                                                    Par {{ livre.auteur.prenom }} {{ livre.auteur.nom }}
+                                                {% else %}
+                                                    Auteur inconnu
+                                                {% endif %}
+                                            </small>
+                                        </p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <a href="{{ path('app_bibliotheque_livre_show', {'id': livre.id}) }}" class="btn btn-sm btn-primary">Voir détails</a>
+                                            {% if livresDisponibilite[livre.id] %}
+                                                <span class="badge bg-success">Disponible</span>
+                                            {% else %}
+                                                <span class="badge bg-danger">Emprunté</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="col-12">
+                                <div class="alert alert-info">
+                                    Aucun livre disponible dans la bibliothèque.
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

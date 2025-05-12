@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Historique des emprunts{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type == 'error' ? 'danger' : type }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Menu</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="{{ path('app_dashboard') }}" class="list-group-item list-group-item-action">Tableau de bord</a>
+                    <a href="{{ path('app_bibliotheque') }}" class="list-group-item list-group-item-action">Catalogue de livres</a>
+                    <a href="{{ path('app_mes_emprunts') }}" class="list-group-item list-group-item-action">Mes emprunts</a>
+                    <a href="{{ path('app_historique_emprunts') }}" class="list-group-item list-group-item-action active">Historique</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h1 class="h3 mb-0">Historique de mes emprunts</h1>
+                    <span class="badge bg-primary">{{ historiqueEmprunts|length }} livre(s)</span>
+                </div>
+                <div class="card-body">
+                    {% if historiqueEmprunts|length > 0 %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Livre</th>
+                                        <th>Date d'emprunt</th>
+                                        <th>Date de retour prévue</th>
+                                        <th>Date de retour effective</th>
+                                        <th>Statut</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for emprunt in historiqueEmprunts %}
+                                        <tr>
+                                            <td>
+                                                <a href="{{ path('app_bibliotheque_livre_show', {'id': emprunt.livre.id}) }}">
+                                                    {{ emprunt.livre.titre }}
+                                                </a>
+                                            </td>
+                                            <td>{{ emprunt.dateEmprunt|date('d/m/Y') }}</td>
+                                            <td>{{ emprunt.dateRetourPrevue|date('d/m/Y') }}</td>
+                                            <td>{{ emprunt.dateRetourEffective|date('d/m/Y') }}</td>
+                                            <td>
+                                                {% if emprunt.estEnRetard %}
+                                                    <span class="badge bg-danger">Retourné en retard</span>
+                                                {% else %}
+                                                    <span class="badge bg-success">Retourné à temps</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">
+                            Vous n'avez pas encore d'historique d'emprunts. <a href="{{ path('app_bibliotheque') }}">Parcourir le catalogue</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

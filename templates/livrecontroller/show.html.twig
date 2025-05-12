@@ -7,7 +7,11 @@
 <h1>{{ livre.titre }}</h1> {# Affiche le titre du livre comme titre principal #}
 <p>{{ livre.resume }}</p> {# Affiche le résumé du livre dans un paragraphe #}
 <p>Auteur: {{ livre.auteur.prenom }} {{ livre.auteur.nom }}</p>
-<img src="{{ livre.couverture }}" alt="{{ livre.titre }}"> {# Affiche l'image de couverture avec le titre comme texte alternatif #}
+{% if livre.couverture %}
+    <img src="{{ asset('uploads/couvertures/' ~ livre.couverture) }}" alt="{{ livre.titre }}" class="img-fluid">
+{% else %}
+    <div class="text-center p-3 bg-light">Pas d'image de couverture disponible</div>
+{% endif %}
 
 <a href="{{ path('app_livrecontroller') }}">Retour à la liste des livres</a> {# Lien pour revenir à la liste des livres #}
 <a href="#">Modifier</a> {# Lien non implémenté pour modifier le livre #}

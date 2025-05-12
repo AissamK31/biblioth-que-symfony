@@ -5,6 +5,7 @@ namespace App\Entity; // Espace de noms pour les entités
 use App\Repository\LivreRepository; // Importe le repository associé
 use Doctrine\ORM\Mapping as ORM; // Importe les annotations Doctrine pour le mapping objet-relationnel
 use App\Entity\Auteur;
+use Symfony\Component\HttpFoundation\File\File;
 
 #[ORM\Entity(repositoryClass: LivreRepository::class)] // Définit la classe comme une entité gérée par le repository LivreRepository
 class Livre // Définition de la classe Livre
@@ -20,12 +21,15 @@ class Livre // Définition de la classe Livre
     #[ORM\Column(length: 255)] // Colonne avec longueur maximale de 255 caractères
     private ?string $resume = null; // Propriété resume, peut être null
 
-    #[ORM\Column(length: 255)] // Colonne avec longueur maximale de 255 caractères
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $couverture = null; // Propriété couverture, peut être null
 
     #[ORM\ManyToOne(targetEntity: Auteur::class, inversedBy: 'livres')]
     #[ORM\JoinColumn(nullable: true)]
     private ?Auteur $auteur = null;
+
+    // Variable temporaire pour le téléchargement des fichiers
+    private $couvertureFile;
 
     public function getId(): ?int // Getter pour l'id, retourne un int ou null
     {
@@ -61,7 +65,7 @@ class Livre // Définition de la classe Livre
         return $this->couverture; // Retourne la valeur de la propriété couverture
     }
 
-    public function setCouverture(string $couverture): static // Setter pour la couverture, prend une string en paramètre
+    public function setCouverture(?string $couverture): static // Setter pour la couverture, prend une string en paramètre
     {
         $this->couverture = $couverture; // Assigne la valeur du paramètre à la propriété
 
@@ -76,6 +80,18 @@ class Livre // Définition de la classe Livre
     public function setAuteur(?Auteur $auteur): self
     {
         $this->auteur = $auteur;
+        return $this;
+    }
+
+    // Getter et setter pour la variable temporaire
+    public function getCouvertureFile()
+    {
+        return $this->couvertureFile;
+    }
+
+    public function setCouvertureFile($couvertureFile): self
+    {
+        $this->couvertureFile = $couvertureFile;
         return $this;
     }
 }
